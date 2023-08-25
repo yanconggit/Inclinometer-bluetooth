@@ -1,0 +1,218 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        08/25/2023  20:29:18  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\C\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\mian.obj TO .\Objects\Inclinometer PRINT (.\Listings\Incl
+>> inometer.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\mian.obj (MIAN)
+  E:\C\KEIL_V5\C51\LIB\C51S.LIB (?C?CLDPTR)
+
+
+LINK MAP OF MODULE:  .\Objects\Inclinometer (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0012H     UNIT         ?DT?MIAN
+            DATA    001AH     0003H     UNIT         _DATA_GROUP_
+                    001DH     0003H                  *** GAP ***
+            BIT     0020H.0   0000H.1   UNIT         ?BI?MIAN
+                    0020H.1   0000H.7                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0019H     UNIT         ?C?LIB_CODE
+                    001CH     0007H                  *** GAP ***
+            CODE    0023H     0003H     ABSOLUTE     
+            CODE    0026H     002DH     UNIT         ?PR?UARTISR?MIAN
+            CODE    0053H     0028H     UNIT         ?PR?MAIN?MIAN
+            CODE    007BH     0025H     UNIT         ?PR?_UARTSENDSTR?MIAN
+            CODE    00A0H     0014H     UNIT         ?PR?UARTINIT?MIAN
+            CODE    00B4H     000EH     UNIT         ?CO?MIAN
+            CODE    00C2H     000CH     UNIT         ?C_C51STARTUP
+            CODE    00CEH     0008H     UNIT         ?PR?_UARTSEND?MIAN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Inclinometer (?C_STARTUP)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MIAN
+
+?PR?MAIN?MIAN                  -----    -----
+  +--> ?PR?UARTINIT?MIAN
+  +--> ?CO?MIAN
+  +--> ?PR?_UARTSENDSTR?MIAN
+  +--> ?PR?_UARTSEND?MIAN
+BL51 BANKED LINKER/LOCATER V6.22                                                      08/25/2023  20:29:18  PAGE 2
+
+
+
+?PR?_UARTSENDSTR?MIAN          001AH    0003H
+  +--> ?PR?_UARTSEND?MIAN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Inclinometer (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:00C2H         SEGMENT       ?C_C51STARTUP
+  I:0021H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:00C5H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:00C2H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:00C2H         LINE#         133
+  C:00C4H         LINE#         134
+  C:00C5H         LINE#         135
+  C:00C6H         LINE#         136
+  C:00C8H         LINE#         185
+  C:00CBH         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        MIAN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00C0H         PUBLIC        P4
+  D:00C8H         PUBLIC        P5
+  B:00A8H.7       PUBLIC        EA
+  D:00E8H         PUBLIC        P6
+  D:00F8H         PUBLIC        P7
+  D:00A8H         PUBLIC        IE
+BL51 BANKED LINKER/LOCATER V6.22                                                      08/25/2023  20:29:18  PAGE 3
+
+
+  B:00A8H.4       PUBLIC        ES
+  D:00B8H         PUBLIC        IP
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
+  D:00D8H         PUBLIC        CCON
+  C:0053H         PUBLIC        main
+  C:00CEH         PUBLIC        _UartSend
+  D:0099H         PUBLIC        SBUF
+  D:0098H         PUBLIC        SCON
+  C:00A0H         PUBLIC        UartInit
+  D:0088H         PUBLIC        TCON
+  D:008EH         PUBLIC        AUXR
+  B:0020H.0       PUBLIC        busy
+  D:0008H         PUBLIC        rptr
+  C:0026H         PUBLIC        UartIsr
+  D:00D6H         PUBLIC        T2H
+  D:0009H         PUBLIC        wptr
+  D:00D7H         PUBLIC        T2L
+  C:007BH         PUBLIC        _UartSendStr
+  D:00D0H         PUBLIC        PSW
+  D:000AH         PUBLIC        buffer
+  -------         PROC          UARTISR
+  C:0026H         LINE#         13
+  C:0031H         LINE#         15
+  C:0034H         LINE#         16
+  C:0034H         LINE#         17
+  C:0036H         LINE#         18
+  C:0038H         LINE#         19
+  C:0038H         LINE#         20
+  C:003BH         LINE#         21
+  C:003BH         LINE#         22
+  C:003DH         LINE#         23
+  C:0047H         LINE#         24
+  C:004AH         LINE#         25
+  C:004AH         LINE#         26
+  -------         ENDPROC       UARTISR
+  -------         PROC          UARTINIT
+  C:00A0H         LINE#         28
+  C:00A0H         LINE#         29
+  C:00A0H         LINE#         30
+  C:00A3H         LINE#         31
+  C:00A6H         LINE#         32
+  C:00A9H         LINE#         33
+  C:00ACH         LINE#         34
+  C:00AFH         LINE#         35
+  C:00B1H         LINE#         36
+  C:00B3H         LINE#         37
+  -------         ENDPROC       UARTINIT
+  -------         PROC          _UARTSEND
+  D:0007H         SYMBOL        dat
+  C:00CEH         LINE#         39
+  C:00CEH         LINE#         40
+  C:00CEH         LINE#         41
+  C:00D1H         LINE#         42
+  C:00D3H         LINE#         43
+  C:00D5H         LINE#         44
+  -------         ENDPROC       _UARTSEND
+BL51 BANKED LINKER/LOCATER V6.22                                                      08/25/2023  20:29:18  PAGE 4
+
+
+  -------         PROC          _UARTSENDSTR
+  D:001AH         SYMBOL        p
+  C:007BH         LINE#         46
+  C:0081H         LINE#         47
+  C:0081H         LINE#         48
+  C:008CH         LINE#         49
+  C:008CH         LINE#         50
+  C:009DH         LINE#         51
+  C:009FH         LINE#         52
+  -------         ENDPROC       _UARTSENDSTR
+  -------         PROC          MAIN
+  C:0053H         LINE#         54
+  C:0053H         LINE#         55
+  C:0053H         LINE#         56
+  C:0056H         LINE#         57
+  C:0058H         LINE#         58
+  C:005AH         LINE#         59
+  C:0063H         LINE#         61
+  C:0063H         LINE#         62
+  C:0063H         LINE#         63
+  C:0069H         LINE#         64
+  C:0069H         LINE#         65
+  C:0076H         LINE#         66
+  C:0079H         LINE#         67
+  C:0079H         LINE#         68
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MIAN
+
+  -------         MODULE        ?C?CLDPTR
+  C:0003H         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+Program Size: data=30.1 xdata=0 code=207
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
