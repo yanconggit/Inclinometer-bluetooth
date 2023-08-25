@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MIAN                                                                  08/25/2023 20:29:18 PAGE 1   
+C51 COMPILER V9.54   MIAN                                                                  08/25/2023 21:55:39 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MIAN
@@ -10,86 +10,92 @@ line level    source
 
    1          #include "stc8f.h"
    2          #include "intrins.h"
-   3          
-   4          #define FOSC            12000000UL
-   5          #define BRT             (65536 - FOSC / 115200 / 4)
-   6          
+   3          #include "uart.h"
+   4          #include "ADXL345.h"
+   5          
+   6          //#define FOSC            12000000UL
    7          
-   8          bit busy;
-   9          char wptr;
-  10          char rptr;
-  11          char buffer[16];
-  12          
-  13          void UartIsr() interrupt 4
-  14          {
-  15   1          if (TI)
-  16   1          {
-  17   2              TI = 0;
-  18   2              busy = 0;
-  19   2          }
-  20   1          if (RI)
-  21   1          {
-  22   2              RI = 0;
-  23   2              buffer[wptr++] = SBUF;
-  24   2              wptr &= 0x0f;
-  25   2          }
-  26   1      }
-  27          
-  28          void UartInit()
-  29          {
-  30   1          SCON = 0x50;
-  31   1          T2L = BRT;
-  32   1          T2H = BRT >> 8;
-  33   1          AUXR = 0x15;
-  34   1          wptr = 0x00;
-  35   1          rptr = 0x00;
-  36   1          busy = 0;
-  37   1      }
-  38          
-  39          void UartSend(char dat)
-  40          {
-  41   1          while (busy);
-  42   1          busy = 1;
-  43   1          SBUF = dat;
-  44   1      }
-  45          
-  46          void UartSendStr(char *p)
-  47          {
-  48   1          while (*p)
-  49   1          {
-  50   2              UartSend(*p++);
-  51   2          }
-  52   1      }
-  53          
-  54          void main()
-C51 COMPILER V9.54   MIAN                                                                  08/25/2023 20:29:18 PAGE 2   
+   8          
+   9          void main()
+  10          {
+  11   1        uchar devid;
+  12   1        
+  13   1          UartInit();
+  14   1          ES = 1;
+  15   1          EA = 1;
+  16   1          UartSendStr("Uart Test !\r\n"); 
+  17   1      
+  18   1        delay(500);                     //上电延时    
+  19   1        while(1)                          //循环
+  20   1        { 
+  21   2          
+  22   2          Init_ADXL345();                   //初始化ADXL345
+  23   2          devid=Single_Read_ADXL345(0X00);  //读出的数据为0XE5,表示正确
+  24   2          if(devid!=0XE5)
+  25   2          {     
+  26   3      
+  27   3            UartSendStr("No Find!\r\n");          
+  28   3            
+  29   3          }
+  30   2          else
+  31   2          {     
+  32   3            Multiple_Read_ADXL345();        //连续读出数据，存储在BUF中
+  33   3            display_x();                    //---------显示X轴
+  34   3      //      display_y();                    //---------显示Y轴
+  35   3      //      display_z();                    //---------显示Z轴          
+  36   3          }      
+  37   2          delay(350);                     //延时  
+  38   2        }
+  39   1        
+  40   1      
+  41   1      }
+  42          
+  43          
+  44          ////*********************************************************
+  45          ////******主程序********
+  46          ////*********************************************************
+  47          //void main()
+  48          //{ 
+  49          //  uchar devid;
+  50          //  delay(500);                     //上电延时    
+  51          
+  52          //    
+  53          //  //Init_ADXL345();                   //初始化ADXL345
+  54          //  //devid=Single_Read_ADXL345(0X00);  //读出的数据为0XE5,表示正确
+C51 COMPILER V9.54   MIAN                                                                  08/25/2023 21:55:39 PAGE 2   
 
-  55          {
-  56   1          UartInit();
-  57   1          ES = 1;
-  58   1          EA = 1;
-  59   1          UartSendStr("Uart Test !\r\n");
-  60   1      
-  61   1          while (1)
-  62   1          {
-  63   2              if (rptr != wptr)
-  64   2              {
-  65   3                  UartSend(buffer[rptr++]);
-  66   3                  rptr &= 0x0f;
-  67   3              }
-  68   2          }
-  69   1      }
-  70          
+  55          //  
+  56          //  while(1)                          //循环
+  57          //  { 
+  58          //    
+  59          //    Init_ADXL345();                   //初始化ADXL345
+  60          //    devid=Single_Read_ADXL345(0X00);  //读出的数据为0XE5,表示正确
+  61          //    if(devid!=0XE5)
+  62          //    {     
+  63          
+  64          //      UartSendStr("No Find!\r\n");          
+  65          //      
+  66          //    }
+  67          //    else
+  68          //    {     
+  69          //      Multiple_Read_ADXL345();        //连续读出数据，存储在BUF中
+  70          //      display_x();                    //---------显示X轴
+  71          ////      display_y();                    //---------显示Y轴
+  72          ////      display_z();                    //---------显示Z轴          
+  73          //    }      
+  74          //    delay(350);                     //延时  
+  75          //  }
+  76          //} 
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    150    ----
-   CONSTANT SIZE    =     14    ----
+   CODE SIZE        =     62    ----
+   CONSTANT SIZE    =     25    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     18       3
+   DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
-   BIT SIZE         =      1    ----
+   BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 
 

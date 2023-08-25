@@ -373,6 +373,16 @@
               <FileType>1</FileType>
               <FilePath>.\mian.c</FilePath>
             </File>
+            <File>
+              <FileName>ADXL345.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ADXL345.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\uart.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

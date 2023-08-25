@@ -1,0 +1,98 @@
+C51 COMPILER V9.54   UART                                                                  08/25/2023 21:48:35 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE UART
+OBJECT MODULE PLACED IN .\Objects\uart.obj
+COMPILER INVOKED BY: E:\C\Keil_v5\C51\BIN\C51.EXE uart.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\ua
+                    -rt.lst) TABS(2) OBJECT(.\Objects\uart.obj)
+
+line level    source
+
+   1          #include "stc8f.h"
+   2          #include "intrins.h"
+   3          
+   4          
+   5          #define FOSC            12000000UL
+   6          #define BRT             (65536 - FOSC / 115200 / 4)
+   7          
+   8          bit busy;
+   9          char wptr;
+  10          char rptr;
+  11          char buffer[16];
+  12          
+  13          void UartIsr() interrupt 4
+  14          {
+  15   1          if (TI)
+  16   1          {
+  17   2              TI = 0;
+  18   2              busy = 0;
+  19   2          }
+  20   1          if (RI)
+  21   1          {
+  22   2              RI = 0;
+  23   2              buffer[wptr++] = SBUF;
+  24   2              wptr &= 0x0f;
+  25   2          }
+  26   1      }
+  27          
+  28          void UartInit()
+  29          {
+  30   1          SCON = 0x50;
+  31   1          T2L = BRT;
+  32   1          T2H = BRT >> 8;
+  33   1          AUXR = 0x15;
+  34   1          wptr = 0x00;
+  35   1          rptr = 0x00;
+  36   1          busy = 0;
+  37   1      }
+  38          
+  39          void UartSend(char dat)
+  40          {
+  41   1          while (busy);
+  42   1          busy = 1;
+  43   1          SBUF = dat;
+  44   1      }
+  45          
+  46          void UartSendStr(char *p)
+  47          {
+  48   1          while (*p)
+  49   1          {
+  50   2              UartSend(*p++);
+  51   2          }
+  52   1      }
+  53          
+  54          //void main()
+C51 COMPILER V9.54   UART                                                                  08/25/2023 21:48:35 PAGE 2   
+
+  55          //{
+  56          //    UartInit();
+  57          //    ES = 1;
+  58          //    EA = 1;
+  59          //    UartSendStr("Uart Test !\r\n");
+  60          
+  61          //    while (1)
+  62          //    {
+  63          //        if (rptr != wptr)
+  64          //        {
+  65          //            UartSend(buffer[rptr++]);
+  66          //            rptr &= 0x0f;
+  67          //        }
+  68          //    }
+  69          //}
+  70          
+  71          
+  72          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    110    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     18       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
